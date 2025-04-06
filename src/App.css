@@ -1,0 +1,16 @@
+/* Глобальні стилі для розміщення футера внизу за допомогою CSS Grid */
+html, body {
+    height: 100%; /* Забезпечуємо, що html і body займають всю висоту вікна */
+    width: 100%;
+    margin: 0;
+    padding: 0;
+}
+
+.app-container {
+    display: grid;
+    grid-template-rows: auto 1fr auto; /* Header, Main Content, Footer */
+    min-height: 100vh; /* Забезпечуємо, що контейнер займає всю висоту вікна */
+    background-size: cover; /* Додаємо для фонових зображень */
+    background-position: center; /* Центруємо фон */
+    background-repeat: no-repeat; /* Забороняємо повторення */
+}

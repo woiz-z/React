@@ -1,0 +1,630 @@
+/* Базові стилі модального вікна */
+.modal {
+    display: flex;
+    position: fixed;
+    z-index: 1000;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    justify-content: center;
+    align-items: center;
+    backdrop-filter: blur(5px);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.3s ease-out;
+}
+
+.modal.active {
+    opacity: 1;
+    pointer-events: auto;
+}
+
+
+
+.modal.active .modal-content {
+    transform: translateY(0);
+}
+
+/* Специфічні стилі для TourInfoModal */
+.tour-info-modal .modal-content {
+    max-width: 800px;
+    max-height: 90vh;
+    overflow-y: auto;
+    text-align: left;
+    padding: 40px;
+}
+
+.modal.fade-out {
+    animation: fadeOut 0.4s ease-out forwards;
+}
+
+.modal-content {
+    position: relative;
+    background: linear-gradient(135deg, #fff 0%, #f9f9f9 100%);
+    margin: 20px;
+    padding: 40px;
+    border-radius: 20px;
+    width: 90%;
+    max-width: 500px;
+    box-shadow: 0 20px 50px rgba(0, 0, 0, 0.3);
+    text-align: center;
+    line-height: 1.6;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    transform: translateY(20px);
+    transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+}
+
+.modal.fade-out .modal-content {
+    animation: modalSlideOut 0.5s ease-out forwards;
+}
+
+.modal-content .close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    font-size: 1.5rem;
+    cursor: pointer;
+    z-index: 2;
+    background: rgba(0, 0, 0, 0.1);
+    border-radius: 50%;
+    width: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s ease;
+    color: #555;
+}
+
+.modal-content .close:hover {
+    background: #f8d56b;
+    color: #000;
+    transform: rotate(90deg);
+}
+
+.modal-content h2 {
+    color: #000;
+    font-size: 2rem;
+    margin-bottom: 30px;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(45deg, #f8d56b, #ff9a3c);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+}
+
+.modal-content label {
+    font-size: 1rem;
+    display: block;
+    text-align: left;
+    margin-bottom: 8px;
+    font-weight: 600;
+    color: #555;
+}
+
+.modal-content input {
+    width: 100%;
+    padding: 15px;
+    margin-bottom: 20px;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: rgba(255, 255, 255, 0.8);
+}
+
+.modal-content input:focus {
+    border-color: #f8d56b;
+    box-shadow: 0 0 0 3px rgba(248, 213, 107, 0.3);
+    outline: none;
+}
+
+.modal-content button {
+    background: linear-gradient(45deg, #f8d56b, #ff9a3c);
+    color: #000;
+    padding: 15px 30px;
+    border: none;
+    border-radius: 50px;
+    font-size: 1rem;
+    font-weight: 600;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    margin-top: 10px;
+    width: 100%;
+    box-shadow: 0 4px 15px rgba(248, 213, 107, 0.3);
+}
+
+.modal-content button:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 20px rgba(248, 213, 107, 0.4);
+}
+
+
+/* Анімації */
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+
+@keyframes fadeOut {
+    from { opacity: 1; }
+    to { opacity: 0; }
+}
+
+@keyframes slideIn {
+    from { transform: translateY(50px); }
+    to { transform: translateY(0); }
+}
+
+@keyframes slideOut {
+    from { transform: translateY(0); }
+    to { transform: translateY(50px); }
+}
+
+/* Адаптація для мобільних пристроїв */
+@media (max-width: 768px) {
+    .modal-content {
+        padding: 30px 20px;
+    }
+
+    .tour-info-modal .modal-content {
+        width: 95%;
+        max-height: 85vh;
+    }
+}
+
+@media (max-width: 480px) {
+    .modal-content {
+        margin: 10px;
+        padding: 25px 15px;
+    }
+
+    .tour-info-modal .modal-content {
+        width: 100%;
+        max-height: 100vh;
+        border-radius: 0;
+    }
+}
+
+/* Тур інфо модальне вікно */
+.tour-info-modal .modal-content {
+    max-width: 800px;
+    text-align: left;
+}
+
+.tour-info-modal h3 {
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+    color: #000;
+    font-family: 'Montserrat', sans-serif;
+    text-align: center;
+}
+
+.tour-info-modal p {
+    margin-bottom: 15px;
+    color: #555;
+    line-height: 1.8;
+}
+
+@media (max-width: 768px) {
+    .modal-content {
+        width: 90%;
+        padding: 30px 20px;
+    }
+
+    .modal-content h2 {
+        font-size: 1.8rem;
+    }
+}
+
+/* Додайте ці стилі до існуючого файлу modal.css */
+
+.tour-info-modal .modal-content {
+    max-height: 90vh;
+    overflow-y: auto;
+    scrollbar-width: thin;
+    scrollbar-color: #f8d56b rgba(0,0,0,0.1);
+}
+
+.tour-info-modal .modal-content::-webkit-scrollbar {
+    width: 8px;
+}
+
+.tour-info-modal .modal-content::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.05);
+    border-radius: 10px;
+}
+
+.tour-info-modal .modal-content::-webkit-scrollbar-thumb {
+    background-color: #f8d56b;
+    border-radius: 10px;
+}
+
+.tour-description {
+    padding-right: 15px; /* Запас для скроллбару */
+}
+
+.tour-description br {
+    display: block;
+    margin-bottom: 1em;
+    content: "";
+}
+
+/* Додайте ці стилі до modal.css */
+
+.reviews-section {
+    margin-top: 45px;
+    padding-top: 35px;
+    border-top: 1px solid rgba(0, 0, 0, 0.05);
+    position: relative;
+}
+
+.reviews-section h4 {
+    font-size: 1.6rem;
+    margin-bottom: 30px;
+    color: #2c3e50;
+    font-family: 'Montserrat', sans-serif;
+    font-weight: 700;
+    letter-spacing: -0.5px;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+}
+
+.reviews-section h4::before {
+    content: '';
+    display: block;
+    width: 24px;
+    height: 24px;
+    background: linear-gradient(45deg, #f8d56b, #ff9a3c);
+    mask: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='currentColor' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z'%3E%3C/path%3E%3C/svg%3E") no-repeat center;
+    mask-size: contain;
+}
+
+.review-form {
+    margin-bottom: 45px;
+    background: #ffffff;
+    padding: 28px;
+    border-radius: 16px;
+    box-shadow: 0 8px 30px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.03);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+}
+
+.review-form:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 12px 35px rgba(0, 0, 0, 0.08);
+}
+
+.rating-input {
+    margin-bottom: 22px;
+    font-size: 2rem;
+    display: flex;
+    gap: 6px;
+    position: relative;
+}
+
+.rating-input::after {
+    position: absolute;
+    top: -25px;
+    left: 0;
+    font-size: 0.85rem;
+    color: #7f8c8d;
+    font-weight: 500;
+}
+
+.rating-input span {
+    transition: all 0.25s ease;
+    cursor: pointer;
+    position: relative;
+    color: #e0e0e0;
+}
+
+.rating-input span.active,
+.rating-input span:hover {
+    color: #f8d56b;
+    transform: scale(1.15);
+}
+
+.rating-input span:hover ~ span {
+    color: #e0e0e0 !important;
+}
+
+.review-form textarea {
+    width: 95%;
+    padding: 18px;
+    border: 1px solid #e9e9e9;
+    border-radius: 12px;
+    min-height: 140px;
+    margin-bottom: 22px;
+    resize: vertical;
+    font-family: inherit;
+    font-size: 1rem;
+    transition: all 0.3s ease;
+    background: #fdfdfd;
+    line-height: 1.6;
+}
+
+.review-form textarea:focus {
+    border-color: #f8d56b;
+    box-shadow: 0 0 0 4px rgba(248, 213, 107, 0.15);
+    outline: none;
+    background: #fff;
+}
+
+.submit-review-btn {
+    background: linear-gradient(45deg, #f8d56b, #ff9a3c);
+    color: #2c3e50;
+    border: none;
+    padding: 14px 28px;
+    border-radius: 12px;
+    cursor: pointer;
+    font-weight: 700;
+    transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    font-size: 1.05rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    box-shadow: 0 4px 15px rgba(248, 213, 107, 0.3);
+    letter-spacing: 0.3px;
+}
+
+.submit-review-btn:hover {
+    transform: translateY(-3px) scale(1.02);
+    box-shadow: 0 8px 25px rgba(248, 213, 107, 0.4);
+}
+
+.submit-review-btn:active {
+    transform: translateY(0) scale(0.98);
+}
+
+.auth-required {
+    background: linear-gradient(45deg, #f9f9f9, #f0f0f0);
+    padding: 25px;
+    border-radius: 12px;
+    text-align: center;
+    margin-bottom: 35px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: #7f8c8d;
+    font-size: 1.05rem;
+    position: relative;
+    overflow: hidden;
+}
+
+.auth-required::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, #f8d56b, #ff9a3c);
+}
+
+.reviews-list {
+    max-height: 450px;
+    overflow-y: auto;
+    padding-right: 15px;
+    scrollbar-width: thin;
+    scrollbar-color: #f8d56b rgba(0,0,0,0.05);
+}
+
+.reviews-list::-webkit-scrollbar {
+    width: 6px;
+}
+
+.reviews-list::-webkit-scrollbar-track {
+    background: rgba(0,0,0,0.03);
+    border-radius: 10px;
+}
+
+.reviews-list::-webkit-scrollbar-thumb {
+    background-color: #f8d56b;
+    border-radius: 10px;
+    background-clip: padding-box;
+    border: 1px solid rgba(0,0,0,0.05);
+}
+
+.review-item {
+    background: #ffffff;
+    padding: 25px;
+    border-radius: 16px;
+    margin-bottom: 25px;
+    box-shadow: 0 5px 20px rgba(0, 0, 0, 0.03);
+    border: 1px solid rgba(0, 0, 0, 0.02);
+    transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.1);
+    position: relative;
+    overflow: hidden;
+}
+
+.review-item::after {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 4px;
+    height: 100%;
+    background: linear-gradient(to bottom, rgba(248, 213, 107, 0.8), rgba(255, 154, 60, 0.8));
+    transform: scaleY(0);
+    transform-origin: top;
+    transition: transform 0.6s cubic-bezier(0.65, 0, 0.35, 1);
+}
+
+.review-item:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 15px 35px rgba(0, 0, 0, 0.08);
+}
+
+.review-item:hover::after {
+    transform: scaleY(1);
+}
+
+.review-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 18px;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+.user-info {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 700;
+    color: #2c3e50;
+    position: relative;
+    z-index: 1;
+}
+
+.user-icon {
+    color: #fff;
+    background: linear-gradient(45deg, #f8d56b, #ff9a3c);
+    padding: 10px;
+    border-radius: 50%;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    box-shadow: 0 4px 10px rgba(248, 213, 107, 0.3);
+}
+
+.review-rating {
+    display: flex;
+    gap: 5px;
+    position: relative;
+    z-index: 1;
+}
+
+.review-comment {
+    color: #555;
+    line-height: 1.75;
+    margin-bottom: 20px;
+    font-size: 1rem;
+    position: relative;
+    z-index: 1;
+    padding-left: 15px;
+    border-left: 2px solid rgba(248, 213, 107, 0.3);
+}
+
+.review-date {
+    font-size: 0.85rem;
+    color: #95a5a6;
+    text-align: right;
+    font-weight: 500;
+    position: relative;
+    z-index: 1;
+}
+
+.loading-reviews {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 35px;
+    color: #7f8c8d;
+    background: #f9f9f9;
+    border-radius: 12px;
+    margin: 25px 0;
+    gap: 15px;
+    font-size: 1.1rem;
+    font-weight: 500;
+}
+
+.error-message {
+    color: #e74c3c;
+    background: #fff0f0;
+    border: 1px solid #ffd1d1;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    font-size: 1rem;
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    font-weight: 500;
+}
+
+.error-message::before {
+    content: '❗';
+    font-size: 1.2rem;
+}
+
+.empty-reviews {
+    text-align: center;
+    padding: 35px;
+    color: #95a5a6;
+    background: #f9f9f9;
+    border-radius: 12px;
+    font-size: 1.05rem;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 15px;
+}
+
+.empty-reviews::before {
+    content: '✍️';
+    font-size: 2rem;
+}
+
+.spin {
+    animation: spin 1.2s cubic-bezier(0.68, -0.55, 0.27, 1.55) infinite;
+}
+
+@keyframes spin {
+    0% { transform: rotate(0deg); }
+    100% { transform: rotate(360deg); }
+}
+
+/* Анімації появи */
+@keyframes fadeInUp {
+    from {
+        opacity: 0;
+        transform: translateY(20px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.review-item {
+    animation: fadeInUp 0.6s cubic-bezier(0.175, 0.885, 0.32, 1.1) forwards;
+    opacity: 0;
+}
+
+.review-item:nth-child(1) { animation-delay: 0.1s; }
+.review-item:nth-child(2) { animation-delay: 0.2s; }
+.review-item:nth-child(3) { animation-delay: 0.3s; }
+.review-item:nth-child(4) { animation-delay: 0.4s; }
+.review-item:nth-child(5) { animation-delay: 0.5s; }
+
+/* Адаптація для мобільних пристроїв */
+@media (max-width: 768px) {
+    .review-form {
+        padding: 20px;
+    }
+
+    .review-item {
+        padding: 20px;
+    }
+
+    .rating-input {
+        font-size: 1.8rem;
+    }
+
+    .reviews-section h4 {
+        font-size: 1.4rem;
+    }
+
+    .submit-review-btn {
+        padding: 12px 22px;
+    }
+}
+

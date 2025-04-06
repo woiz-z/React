@@ -1,0 +1,180 @@
+/* ProfilePage.css */
+.profile-page {
+    background: linear-gradient(rgba(0, 0, 0, 0.4), rgba(0, 0, 0, 0.4)),
+    url('../../public/imgs/pexels-simon73-1183099.jpg');
+    background-size: cover;
+    background-position: center;
+    background-attachment: fixed;
+    min-height: 100vh;
+    padding: 60px 20px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+    font-family: 'Poppins', sans-serif;
+}
+
+.profile-page::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+            45deg,
+            rgba(248, 213, 107, 0.1) 0%,
+            rgba(255, 154, 60, 0.1) 50%,
+            rgba(255, 107, 107, 0.1) 100%
+    );
+    pointer-events: none;
+}
+
+.contacts-header {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-bottom: 40px;
+    width: 100%;
+    max-width: 1400px;
+    position: relative;
+    z-index: 2;
+}
+
+.contacts-header h2 {
+    color: white;
+    font-size: 2.8rem;
+    margin-bottom: 25px;
+    text-shadow: 0 2px 10px rgba(0, 0, 0, 0.7);
+    position: relative;
+    padding-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+    background: linear-gradient(45deg, #f8d56b, #ffffff, #f8d56b);
+    -webkit-background-clip: text;
+    background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-size: 200% 200%;
+    animation: gradientPulse 8s ease infinite;
+}
+
+.contacts-header h2::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 120px;
+    height: 4px;
+    background: linear-gradient(90deg, #f8d56b, #ff9a3c);
+    border-radius: 4px;
+}
+
+.contacts-container {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 30px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 0 auto;
+    position: relative;
+    z-index: 2;
+}
+
+.contact-card {
+    background: rgba(255, 255, 255, 0.9);
+    border-radius: 16px;
+    padding: 30px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+    backdrop-filter: blur(5px);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    text-align: center;
+    min-height: 180px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.contact-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 12px 25px rgba(0, 0, 0, 0.15);
+    background: rgba(255, 255, 255, 0.95);
+}
+
+.contact-card h3 {
+    font-size: 1.3rem;
+    color: #000;
+    margin-bottom: 15px;
+    font-family: 'Montserrat', sans-serif;
+}
+
+.contact-card a {
+    color: #1a1a2e;
+    text-decoration: none;
+    font-weight: 600;
+    font-size: 1.1rem;
+    transition: all 0.3s ease;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+}
+
+.contact-card a:hover {
+    color: #f8d56b;
+}
+
+.contact-icon {
+    font-size: 1.5rem;
+    margin-bottom: 15px;
+    color: #f8d56b;
+}
+
+#map {
+    height: 500px;
+    width: 100%;
+    max-width: 1000px;
+    margin: 40px auto 0;
+    border-radius: 16px;
+    box-shadow: 0 8px 20px rgba(0, 0, 0, 0.1);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    overflow: hidden;
+    position: relative;
+    z-index: 2;
+}
+
+@keyframes gradientPulse {
+    0% { background-position: 0% 50%; }
+    50% { background-position: 100% 50%; }
+    100% { background-position: 0% 50%; }
+}
+
+@media (max-width: 768px) {
+    .contacts-container {
+        grid-template-columns: 1fr;
+        gap: 20px;
+    }
+
+    .contacts-header h2 {
+        font-size: 2.2rem;
+    }
+
+    .contact-card {
+        min-height: 150px;
+        padding: 25px;
+    }
+}
+
+@media (max-width: 480px) {
+    .profile-page {
+        padding: 40px 15px;
+    }
+
+    .contacts-header h2 {
+        font-size: 1.8rem;
+    }
+
+    #map {
+        height: 400px;
+    }
+}
