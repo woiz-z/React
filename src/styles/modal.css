@@ -628,3 +628,54 @@
     }
 }
 
+/* Додайте ці стилі до modal.css */
+
+.average-rating {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+    padding: 15px 20px;
+    background: linear-gradient(45deg, #f9f9f9, #f0f0f0);
+    border-radius: 12px;
+    border: 1px solid rgba(0, 0, 0, 0.05);
+}
+
+.average-rating-value {
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: #f8d56b;
+    display: flex;
+    align-items: flex-end;
+    line-height: 1;
+}
+
+.average-rating-value span {
+    font-size: 2.5rem;
+    color: #f8d56b;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.average-rating-stars {
+    display: flex;
+    gap: 5px;
+    font-size: 1.5rem;
+}
+
+.average-rating-count {
+    font-size: 0.9rem;
+    color: #7f8c8d;
+    margin-left: auto;
+}
+
+@media (max-width: 768px) {
+    .average-rating {
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+
+    .average-rating-count {
+        margin-left: 0;
+    }
+}

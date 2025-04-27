@@ -1,12 +1,13 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import '../styles/modal.css';
 import { FaStar, FaRegStar, FaUser, FaSpinner } from 'react-icons/fa';
-import { auth, db } from './firebase';
+import {addReviewWithCheck, auth, containsForbiddenWords, db} from './firebase';
 import { collection, addDoc, query, where, orderBy, getDocs, serverTimestamp } from 'firebase/firestore';
 
 const TourInfoModal = ({ tour, onClose }) => {
     const [isActive, setIsActive] = useState(false);
     const [reviews, setReviews] = useState([]);
+    const [averageRating, setAverageRating] = useState(0);
     const [rating, setRating] = useState(0);
     const [comment, setComment] = useState('');
     const [isLoading, setIsLoading] = useState(false);
@@ -22,7 +23,7 @@ const TourInfoModal = ({ tour, onClose }) => {
             const q = query(
                 collection(db, "reviews"),
                 where("tourId", "==", tour.id),
-                orderBy("createdAt", "desc")
+                orderBy("rating", "desc") // Сортуємо за рейтингом (від найвищого)
             );
             const snapshot = await getDocs(q);
             const reviewsData = snapshot.docs.map(doc => ({
@@ -30,7 +31,17 @@ const TourInfoModal = ({ tour, onClose }) => {
                 ...doc.data(),
                 createdAt: doc.data().createdAt?.toDate() || new Date()
             }));
+
             setReviews(reviewsData);
+
+            // Розраховуємо середній рейтинг
+            if (reviewsData.length > 0) {
+                const total = reviewsData.reduce((sum, review) => sum + review.rating, 0);
+                const average = total / reviewsData.length;
+                setAverageRating(parseFloat(average.toFixed(1)));
+            } else {
+                setAverageRating(0);
+            }
         } catch (err) {
             setError('Не вдалося завантажити відгуки');
             console.error('Помилка завантаження:', err);
@@ -67,12 +78,18 @@ const TourInfoModal = ({ tour, onClose }) => {
             return;
         }
 
+        // Перевірка на заборонені слова на клієнті (опціонально)
+        if (containsForbiddenWords(comment)) {
+            setError('Відгук містить заборонені слова');
+            return;
+        }
+
         setIsSubmitting(true);
         setError(null);
 
         try {
             const reviewData = {
-                tourId: tour.id ,
+                tourId: tour.id,
                 userId: user.uid,
                 userName: user.displayName || 'Анонім',
                 rating,
@@ -80,19 +97,28 @@ const TourInfoModal = ({ tour, onClose }) => {
                 createdAt: serverTimestamp()
             };
 
-            const docRef = await addDoc(collection(db, "reviews"), reviewData);
+            const docRef = await addReviewWithCheck(reviewData); // Використовуємо нову функцію
 
-            // Optimistic update
-            setReviews(prev => [{
+            // Оптимістичне оновлення
+            const newReview = {
                 id: docRef.id,
                 ...reviewData,
                 createdAt: new Date()
-            }, ...prev]);
+            };
+
+            const updatedReviews = [newReview, ...reviews];
+            setReviews(updatedReviews);
+
+            // Оновлюємо середній рейтинг
+            const total = updatedReviews.reduce((sum, review) => sum + review.rating, 0);
+            const average = total / updatedReviews.length;
+            setAverageRating(parseFloat(average.toFixed(1)));
 
             setComment('');
             setRating(0);
+            handleClose();
         } catch (err) {
-            setError('Помилка при відправці відгуку');
+            setError(err.message || 'Помилка при відправці відгуку');
             console.error('Помилка відправки:', err);
         } finally {
             setIsSubmitting(false);
@@ -106,6 +132,28 @@ const TourInfoModal = ({ tour, onClose }) => {
             <div className="modal-content">
                 <span className="close" onClick={handleClose}>✖</span>
                 <h3>{tour.title}</h3>
+
+                {/* Відображення середнього рейтингу */}
+                {reviews.length > 0 && (
+                    <div className="average-rating">
+                        <div className="average-rating-value">
+                            <span>{averageRating}</span>/5
+                        </div>
+                        <div className="average-rating-stars">
+                            {[...Array(5)].map((_, i) => (
+                                i < Math.round(averageRating) ? (
+                                    <FaStar key={i} color="#f8d56b" />
+                                ) : (
+                                    <FaRegStar key={i} color="#f8d56b" />
+                                )
+                            ))}
+                        </div>
+                        <div className="average-rating-count">
+                            ({reviews.length} {reviews.length === 1 ? 'відгук' : reviews.length < 5 ? 'відгуки' : 'відгуків'})
+                        </div>
+                    </div>
+                )}
+
                 <div className="tour-description" dangerouslySetInnerHTML={{ __html: tour.description }} />
 
                 <div className="reviews-section">

@@ -32,6 +32,35 @@ const auth = getAuth(app);
 const db = getFirestore(app);
 const storage = getStorage(app);
 
+// Чорний список заборонених слів
+const forbiddenWords = [
+    // Образи та приниження
+    'ідіот', 'дурень', 'тупий', 'невдаха', 'нікчема', 'потворний', 'жирний', 'худий', 'огидний',
+
+    // Ненормативна лексика (повністю)
+    'блядь', 'сука', 'хуй', 'пизда', 'єбать', 'мудак', 'гондон', 'дрочити', 'єблан', 'підор', 'мразь',
+
+    // Мова ворожнечі та дискримінація
+    'негр', 'жид', 'циган', 'педик', 'гомик', 'трансик', 'мусор', 'хач', 'чурка', 'ублюдок',
+
+    // Спам та шахрайство
+    'безкоштовно', 'заробіток', 'криптовалюта', 'інвестуй', 'підпишись', 'лайкни', 'перейдіть за посиланням',
+    'подарунок', 'виграй', 'гроші швидко', 'інвестиція', 'ставки', 'казино', 'лотерея',
+
+    // Алгоспік і завуальовані слова
+    'suicide', 'unalive', 'rape', 'porn', 'sex', 'nude', 'weed', 'cocaine', 'heroin', 'cheese pizza',
+
+    // Інші небажані теми
+    'тероризм', 'насильство', 'вбивство', 'порнографія', 'наркотики', 'суїцид', 'зґвалтування', 'педофілія',
+    'війна', 'тортури', 'расизм', 'ксенофобія'
+];
+
+// Функція для перевірки наявності заборонених слів
+const containsForbiddenWords = (text) => {
+    const lowerText = text.toLowerCase();
+    return forbiddenWords.some(word => lowerText.includes(word.toLowerCase()));
+};
+
 // Функції для роботи з аутентифікацією
 const registerUser = async (email, password, name) => {
     try {
@@ -54,7 +83,13 @@ const loginUser = async (email, password) => {
     }
 };
 
-
+// Функція для додавання відгуку з перевіркою на заборонені слова
+const addReviewWithCheck = async (reviewData) => {
+    if (containsForbiddenWords(reviewData.comment)) {
+        throw new Error('Відгук містить заборонені слова');
+    }
+    return await addDoc(collection(db, "reviews"), reviewData);
+};
 
 export {
     auth,
@@ -68,5 +103,7 @@ export {
     where,
     orderBy,
     getDocs,
-    serverTimestamp
+    serverTimestamp,
+    addReviewWithCheck,
+    containsForbiddenWords
 };
